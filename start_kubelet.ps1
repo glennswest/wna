@@ -2,12 +2,9 @@ $Env:lhost=$Env:COMPUTERNAME.ToLower()
 echo $Env:lhost
 c:\bin\kubelet.exe --hostname-override="$Env:lhost" --v=6 `
     --resolv-conf="" `
-    --allow-privileged=true `
      --log-dir /k/logs `
     --enable-debugging-handlers `
-    --cluster-dns="10.0.0.4,10.0.1.6" `
     --cluster-domain=cluster.local `
-    --kubeconfig=c:\k\config `
     --hairpin-mode=promiscuous-bridge `
     --image-pull-progress-deadline=20m `
     --cgroups-per-qos=false `
@@ -16,6 +13,14 @@ c:\bin\kubelet.exe --hostname-override="$Env:lhost" --v=6 `
     --network-plugin=cni `
     --cni-bin-dir="c:\bin" `
     --cni-conf-dir "c:\cni" `
-    --client-ca-file=c:\k\ca.crt `
+    --config=/etc/kubernetes/kubelet.conf `
     --bootstrap-kubeconfig=/etc/kubernetes/kubeconfig `
-    --kubeconfig=/var/lib/kubelet/kubeconfig 
+    --kubeconfig=/var/lib/kubelet/kubeconfig `
+    --allow-privileged `
+    --minimum-container-ttl-duration=6m0s `
+    --client-ca-file=/etc/kubernetes/ca.crt `
+    --anonymous-auth=false `
+    --v=3 `
+    --root-dir="/" `
+    --cert-dir="c:/var/lib/kubelet/pki/" `
+    --container-runtime-endpoint="tcp://localhost:3735"
