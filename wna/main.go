@@ -8,6 +8,7 @@ import (
         // "encoding/json"
         "io"
         "net/http"
+	"crypto/tls"
         "os"
         "log"
 )
@@ -27,16 +28,19 @@ func main() {
     log.Printf("append = %v\n",append)
     nodeignsrc := gjson.Get(append,"0.source").String()
     log.Printf("src = %v\n",nodeignsrc)
-    downloadfile(nodeignsrc,"/k/compute.ignition")
-    ignition.Parse_ignition_file("/k/compute.ignition","/k/ignition")   
+    downloadfile("/k/compute.ign",nodeignsrc)
+    ignition.Parse_ignition_file("/k/compute.ign","")   
 
 }
 
 func downloadfile(filepath string, url string) error {
 
     // Get the data
+    log.Printf("Downloading %v\n",url)
+    http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
     resp, err := http.Get(url)
     if err != nil {
+	log.Printf("Error getting %s, %v\n",url,err)
         return err
     }
     defer resp.Body.Close()
