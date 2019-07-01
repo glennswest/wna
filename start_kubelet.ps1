@@ -15,4 +15,7 @@ c:\bin\kubelet.exe --hostname-override="$Env:lhost" --v=6 `
     --pod-infra-container-image=kubeletwin/pause:latest `
     --network-plugin=cni `
     --cni-bin-dir="c:\bin" `
-    --cni-conf-dir "c:\cni"
+    --cni-conf-dir "c:\cni" `
+    --client-ca-file=c:\k\ca.crt `
+    --bootstrap-kubeconfig=/k/ignition/etc/kubernetes/kubeconfig `
+    --kubeconfig=/k/ignition/var/lib/kubelet/kubeconfig 
