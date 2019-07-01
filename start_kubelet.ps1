@@ -17,5 +17,5 @@ c:\bin\kubelet.exe --hostname-override="$Env:lhost" --v=6 `
     --cni-bin-dir="c:\bin" `
     --cni-conf-dir "c:\cni" `
     --client-ca-file=c:\k\ca.crt `
-    --bootstrap-kubeconfig=/k/ignition/etc/kubernetes/kubeconfig `
-    --kubeconfig=/k/ignition/var/lib/kubelet/kubeconfig 
+    --bootstrap-kubeconfig=/etc/kubernetes/kubeconfig `
+    --kubeconfig=/var/lib/kubelet/kubeconfig 
