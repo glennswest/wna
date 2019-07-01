@@ -10,37 +10,40 @@ import (
         "net/http"
 	"crypto/tls"
         "os"
-        "log"
+        "fmt"
 )
 
 func main() {
-    log.Println("WNA - Windows Node Adder")
+    fmt.Println("WNA - Windows Node Adder")
     ignb64 := os.Getenv("workerign")
     if (len(ignb64) == 0){
-        log.Printf("wna: No workerign environment variable supplied\n")
+        fmt.Printf("wna: No workerign environment variable supplied\n")
         os.Exit(-3)
         }
+    fmt.Printf("Decoding base64 ignition file from workerign environment varialbe\n")
     ignbytes, _ := base64.StdEncoding.DecodeString(ignb64)
     ign := string(ignbytes)
-    log.Printf("ign = %v\n",ign)
+    fmt.Printf("ign = %v\n",ign)
     // "ignition":{"config":{"append":[{"source":"
     append := gjson.Get(ign,"ignition.config.append").String()
-    log.Printf("append = %v\n",append)
+    fmt.Printf("append = %v\n",append)
     nodeignsrc := gjson.Get(append,"0.source").String()
-    log.Printf("src = %v\n",nodeignsrc)
+    fmt.Printf("src = %v\n",nodeignsrc)
     downloadfile("/k/compute.ign",nodeignsrc)
+    fmt.Printf("Starting Processing of 2nd stage ignition file\n")
     ignition.Parse_ignition_file("/k/compute.ign","")   
-
+    fmt.Printf("All Processing Complete\n")
+    os.Exit(0)
 }
 
 func downloadfile(filepath string, url string) error {
 
     // Get the data
-    log.Printf("Downloading %v\n",url)
+    fmt.Printf("Downloading %v\n",url)
     http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
     resp, err := http.Get(url)
     if err != nil {
-	log.Printf("Error getting %s, %v\n",url,err)
+	fmt.Printf("Error getting %s, %v\n",url,err)
         return err
     }
     defer resp.Body.Close()
