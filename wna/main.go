@@ -20,7 +20,6 @@ func main() {
         fmt.Printf("wna: No workerign environment variable supplied\n")
         os.Exit(-3)
         }
-    fmt.Printf("Decoding base64 ignition file from workerign environment varialbe\n")
     ignbytes, _ := base64.StdEncoding.DecodeString(ignb64)
     ign := string(ignbytes)
     // "ignition":{"config":{"append":[{"source":"
