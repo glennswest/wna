@@ -15,13 +15,7 @@ import (
 
 func main() {
     fmt.Println("WNA - Windows Node Adder")
-    ignb64 := os.Getenv("workerign")
-    if (len(ignb64) == 0){
-        fmt.Printf("wna: No workerign environment variable supplied\n")
-        os.Exit(-3)
-        }
-    ignbytes, _ := base64.StdEncoding.DecodeString(ignb64)
-    ign := string(ignbytes)
+    ign := ReadFile("/Program Files/WindowsNodeManager/settings/env/settings/workerign")
     // "ignition":{"config":{"append":[{"source":"
     append := gjson.Get(ign,"ignition.config.append").String()
     nodeignsrc := gjson.Get(append,"0.source").String()
@@ -30,6 +24,16 @@ func main() {
     ignition.Parse_ignition_file("/k/compute.ign","")   
     fmt.Printf("All Processing Complete\n")
     os.Exit(0)
+}
+
+func ReadFile(thepath string) string {
+    b, err := ioutil.ReadFile(thepath) // just pass the file name
+    if err != nil {
+        //log.Print(err)
+        return ""
+    }
+    str := string(b)
+   return str
 }
 
 func downloadfile(filepath string, url string) error {
