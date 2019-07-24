@@ -1,8 +1,8 @@
 package main
 import (
-        // "github.com/tidwall/sjson"
         "github.com/tidwall/gjson"
         "github.com/glennswest/libignition/ignition"
+        "ioutil"
         "io"
         "net/http"
 	"crypto/tls"
